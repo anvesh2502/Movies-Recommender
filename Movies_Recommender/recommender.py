@@ -61,4 +61,36 @@ def topMatches(prefs,person,n=5,similarity=sim_distance_pearson) :
 
     return scores[0:n]
 
-print topMatches(sample_data.critics,'Toby',n=3)
+
+def transformPrefs(prefs) :
+
+    result={}
+
+    for person in prefs :
+
+        for item in prefs[person] :
+
+            result.setdefault(item,{})
+            result[item][person]=prefs[person][item]
+
+    return result
+
+
+def calculateSimilarItems(prefs,n=10) :
+
+    result={}
+
+    itemPrefs=transformPrefs(prefs)
+    c=0
+
+    for item in itemPrefs :
+        c+=1
+        if c%100==0 :
+            print '%d / %d' % (c,len(itemPrefs))
+        scores=topMatches(itemPrefs,item,n=n,similarity=sim_distance_pearson)
+        result[item]=scores
+    return result
+
+
+itemsim=calculateSimilarItems(sample_data.critics)
+print itemsim            
