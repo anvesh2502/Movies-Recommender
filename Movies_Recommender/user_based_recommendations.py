@@ -13,4 +13,13 @@ if user_num not in prefs :
   print 'User not available '
   sys.exit(1)
 
-print getRecommendations(prefs,user_num)[0:5]  
+movies=getRecommendations(prefs,user_num)
+
+if len(movies)>10 :
+    movies=movies[0:10]
+
+print 'The Recommended movies to this user are : '
+print
+
+for movie in movies :
+    print movie[1]
